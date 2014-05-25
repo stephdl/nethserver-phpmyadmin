@@ -1,2 +1,2 @@
-nethserver-phpmyadmin
-=====================
+smeserver-phpmyadmin
+====================

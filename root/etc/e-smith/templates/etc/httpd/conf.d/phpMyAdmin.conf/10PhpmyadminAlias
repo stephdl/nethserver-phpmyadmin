@@ -1,0 +1,113 @@
+# phpmyadmin
+
+
+{
+    my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
+    my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
+
+    if ("$adminaccess" eq "enabled" || "$multiaccess" eq "enabled")
+        {
+            $OUT .= "    RewriteRule ^/phpmyadmin(/.*|\$)    https://%{HTTP_HOST}/phpmyadmin\$1 [L,R]\n";
+        }
+
+
+    if ( "$multiaccess" eq "enabled")
+        {
+            $OUT .= "    RewriteRule ^/phpmyadmin-multi(/.*|\$)    https://%{HTTP_HOST}/phpmyadmin-multi\$1 [L,R]\n";
+        }
+}
+
+{
+my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
+my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
+if (("$adminaccess" eq "enabled") || ("$multiaccess" eq "enabled"))
+    {
+    $OUT .= "Alias /phpmyadmin /usr/share/phpMyAdmin\n";
+    }
+    else
+    {
+    $OUT .= "# phpMyAdmin Admin access disabled\n";
+    }
+if ("$multiaccess" eq "enabled")
+    {
+    $OUT .= "Alias /phpmyadmin-multi /usr/share/phpMyAdmin\n";
+    }
+    else
+    {
+    $OUT .= "# phpMyAdmin Multiuser access disabled\n";
+    }
+}
+
+
+{
+my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
+my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
+
+$OUT .= '<Location /phpmyadmin>
+    AuthName "phpmyadmin"
+    AuthType Basic
+    AuthBasicProvider external
+    AuthExternal pwauth
+    require user admin
+</Location>
+' if "$adminaccess" eq "enabled";
+}
+
+<Directory /usr/share/phpMyAdmin>
+    SSLRequireSSL
+    Options -Indexes
+    AllowOverride None
+    order deny,allow
+    deny from all
+{
+my $access = ($phpmyadmin{'access'} || 'private');
+if ("$access" eq "private")
+    {
+    $OUT .= "    allow from $localAccess";
+    }
+    elsif ("$access" eq "public")
+    {
+    $OUT .= "    allow from all";
+    }
+}
+    Satisfy all
+    AddType application/x-httpd-php .php .php3
+    php_flag  magic_quotes_gpc  on
+    php_flag  track_vars        on
+    php_admin_value open_basedir /usr/share/php:/usr/share/phpMyAdmin:/etc/phpMyAdmin:/var/lib/phpMyAdmin:/tmp
+</Directory>
+
+
+<Directory /usr/share/phpMyAdmin/scripts>
+    SSLRequireSSL
+    Options -Indexes
+    AllowOverride None
+    order deny,allow
+    deny from all
+{
+my $access = ($phpmyadmin{'access'} || 'private');
+if ("$access" eq "private")
+    {
+    $OUT .= "    allow from $localAccess ";
+    }
+    elsif ("$access" eq "public")
+    {
+    $OUT .= "    allow from all";
+    }
+}
+    AuthName "phpMyadmin Scripts (Admin)"
+    AuthType Basic
+    AuthBasicProvider external
+    AuthExternal pwauth
+    require user admin
+    Satisfy all
+    AddType application/x-httpd-php .php .php3
+    php_flag  magic_quotes_gpc  on
+    php_flag  track_vars        on
+</Directory>
+
+<Directory /usr/share/phpMyAdmin/libraries >
+    order deny,allow
+    deny from all
+</Directory>
+
