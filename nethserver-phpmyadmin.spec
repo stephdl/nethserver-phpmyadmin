@@ -17,7 +17,9 @@ BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: mod_authnz_external
 Requires: pwauth
+Requires: nethserver-httpd, nethserver-mysql
 Requires: phpMyAdmin >= 3.5.2.2
+
 #Requires: e-smith-release >= 9.0
 Obsoletes: phpmyadmin,phpMyAdmin3
 BuildRequires: e-smith-devtools >= 1.13.1-03
