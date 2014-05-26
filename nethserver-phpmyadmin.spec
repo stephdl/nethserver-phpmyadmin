@@ -1,7 +1,5 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-#%define version 3.5.2.2
-#%define release 7
 Version: @@VERSION@@
 Release: @@RELEASE@@
 License: GPL
