@@ -106,8 +106,25 @@ if ("$access" eq "private")
     php_flag  track_vars        on
 </Directory>
 
-<Directory /usr/share/phpMyAdmin/libraries >
-    order deny,allow
-    deny from all
+
+# These directories do not require access over HTTP - taken from the original
+# phpMyAdmin upstream tarball
+#
+<Directory /usr/share/phpMyAdmin/libraries/>
+    Order Deny,Allow
+    Deny from All
+    Allow from None
+</Directory>
+
+<Directory /usr/share/phpMyAdmin/setup/lib/>
+    Order Deny,Allow
+    Deny from All
+    Allow from None
+</Directory>
+
+<Directory /usr/share/phpMyAdmin/setup/frames/>
+    Order Deny,Allow
+    Deny from All
+    Allow from None
 </Directory>
 
