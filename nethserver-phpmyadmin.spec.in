@@ -9,17 +9,17 @@ BuildArch: noarch
 
 Requires: mod_authnz_external
 Requires: pwauth
-Requires: phpMyAdmin >= 3.5.2.2
-Obsoletes: phpmyadmin,phpMyAdmin3
+Requires: phpMyAdmin
 
 Requires: nethserver-mysql
 Requires: nethserver-httpd
+Requires: nethserver-directory
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools 
 
 %description
-Implementation of phpMyAdmin for SME Server.
+Implementation of phpMyAdmin for Nethserver
 Access with admin username/password via: https://yourdomain/phpmyadmin.
 
 
