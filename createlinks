@@ -3,11 +3,12 @@
 use esmith::Build::CreateLinks qw(:all);
 
 for my $event (qw(
-    nethserver-phpmyadmin-conf
+    nethserver-phpmyadmin-update 
+    nethserver-phpmyadmin-save 
+
     ))
 {
     templates2events("/etc/phpMyAdmin/config.inc.php", $event);
     templates2events("/etc/httpd/conf.d/phpMyAdmin.conf", $event);
-    #safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
     event_services($event, qw(httpd reload));
 }

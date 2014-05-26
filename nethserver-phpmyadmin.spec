@@ -1,33 +1,48 @@
-# $Id: smeserver-phpmyadmin.spec,v 1.8 2013/06/23 00:20:28 unnilennium Exp $
-# Authority: darrellmay
-# Name: Darrell May
-
 Summary: phpMyAdmin for Nethserver
-%define name nethserver-phpmyadmin
-Name: %{name}
-%define version 3.5.2.2
-%define release 7
-Version: %{version}
-Release: %{release}%{?dist}
+Name: nethserver-phpmyadmin
+#%define version 3.5.2.2
+#%define release 7
+Version: @@VERSION@@
+Release: @@RELEASE@@
 License: GPL
-Group: nethserver/addon
 Source: %{name}-%{version}.tar.gz
 URL: http://www.phpmyadmin.net/ 
-BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
-BuildArchitectures: noarch
+BuildArch: noarch
+
 Requires: mod_authnz_external
 Requires: pwauth
 Requires: phpMyAdmin >= 3.5.2.2
-#Requires: e-smith-release >= 9.0
 Obsoletes: phpmyadmin,phpMyAdmin3
-BuildRequires: e-smith-devtools >= 1.13.1-03
-Obsoletes: e-smith-phpmyadmin
-Obsoletes: smeserver-phpmyadmin <= 3.5.2.2-1
-Obsoletes: smeserver-phpmyadmin-multiuser
+
+Requires: nethserver-mysql
+Requires: nethserver-httpd
+
+BuildRequires: perl
+BuildRequires: nethserver-devtools 
 
 %description
 Implementation of phpMyAdmin for SME Server.
 Access with admin username/password via: https://yourdomain/phpmyadmin.
+
+
+
+%prep
+%setup
+
+%build
+perl createlinks
+
+%install
+/bin/rm -rf $RPM_BUILD_ROOT
+(cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
+/bin/rm -f %{name}-%{version}-filelist
+/sbin/e-smith/genfilelist $RPM_BUILD_ROOT > %{name}-%{version}-filelist
+
+%files -f %{name}-%{version}-filelist
+%defattr(-,root,root)
+
+%clean 
+rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.2.2-7
@@ -87,22 +102,3 @@ Access with admin username/password via: https://yourdomain/phpmyadmin.
 - change rpm name to smeserver-phpmyadmin
 - change install dir to /opt/phpmyadmin
 - [ 2.6.2-1]
-
-%prep
-%setup
-
-%build
-perl createlinks
-
-%install
-/bin/rm -rf $RPM_BUILD_ROOT
-(cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
-/bin/rm -f %{name}-%{version}-filelist
-/sbin/e-smith/genfilelist $RPM_BUILD_ROOT > %{name}-%{version}-filelist
-
-%files -f %{name}-%{version}-filelist
-%defattr(-,root,root)
-
-%clean 
-rm -rf $RPM_BUILD_ROOT
-
