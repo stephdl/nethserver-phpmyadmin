@@ -27,15 +27,17 @@ if ("$multiaccess" eq "enabled")
 
     if ("$adminaccessSSL" eq "enabled" || "$multiaccessSSL" eq "enabled")
         {
-            $OUT .= "    RewriteRule ^/phpmyadmin(/.*)?\$    https://%{HTTP_HOST}/phpmyadmin\$1 [L,R]\n";
+            $OUT .= "    RewriteEngine On\n";
+            $OUT .= '    RewriteRule ^/phpmyadmin(/.*)?\$    https://%HTTP_HOST/phpmyadmin\$1 [R=301,L]' ."\n";
         }
 
 
     if ( "$multiaccessSSL" eq "enabled")
         {
-            $OUT .= "    RewriteRule ^/phpmyadmin-multi(/.*)?\$    https://%{HTTP_HOST}/phpmyadmin-multi\$1 [L,R]\n";
+            $OUT .= '    RewriteRule ^/phpmyadmin-multi(/.*)?\$    https://%HTTP_HOST/phpmyadmin-multi\$1 [R=301,L]' . "\n";
         }
 }
+
 
 {
 my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
