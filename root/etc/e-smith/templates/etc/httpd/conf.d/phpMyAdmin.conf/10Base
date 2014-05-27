@@ -2,22 +2,6 @@
 
 
 {
-    my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
-    my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
-
-    if ("$adminaccess" eq "enabled" || "$multiaccess" eq "enabled")
-        {
-            $OUT .= "    RewriteRule ^/phpmyadmin(/.*|\$)    https://%{HTTP_HOST}/phpmyadmin\$1 [L,R]\n";
-        }
-
-
-    if ( "$multiaccess" eq "enabled")
-        {
-            $OUT .= "    RewriteRule ^/phpmyadmin-multi(/.*|\$)    https://%{HTTP_HOST}/phpmyadmin-multi\$1 [L,R]\n";
-        }
-}
-
-{
 my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
 my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
 if (("$adminaccess" eq "enabled") || ("$multiaccess" eq "enabled"))
@@ -37,7 +21,21 @@ if ("$multiaccess" eq "enabled")
     $OUT .= "# phpMyAdmin Multiuser access disabled\n";
     }
 }
+{
+    my $adminaccessSSL = ($phpmyadmin{'adminaccess'} || 'enabled');
+    my $multiaccessSSL = ($phpmyadmin{'multiaccess'} || 'disabled');
 
+    if ("$adminaccessSSL" eq "enabled" || "$multiaccessSSL" eq "enabled")
+        {
+            $OUT .= "    RewriteRule ^/phpmyadmin(/.*)?\$    https://%{HTTP_HOST}/phpmyadmin\$1 [L,R]\n";
+        }
+
+
+    if ( "$multiaccessSSL" eq "enabled")
+        {
+            $OUT .= "    RewriteRule ^/phpmyadmin-multi(/.*)?\$    https://%{HTTP_HOST}/phpmyadmin-multi\$1 [L,R]\n";
+        }
+}
 
 {
 my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
