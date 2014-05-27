@@ -21,23 +21,6 @@ if ("$multiaccess" eq "enabled")
     $OUT .= "# phpMyAdmin Multiuser access disabled\n";
     }
 }
-{
-    my $adminaccessSSL = ($phpmyadmin{'adminaccess'} || 'enabled');
-    my $multiaccessSSL = ($phpmyadmin{'multiaccess'} || 'disabled');
-
-    if ("$adminaccessSSL" eq "enabled" || "$multiaccessSSL" eq "enabled")
-        {
-            $OUT .= "    RewriteEngine On\n";
-            $OUT .= '    RewriteRule ^/phpmyadmin(/.*)?\$    https://%HTTP_HOST/phpmyadmin\$1 [R=301,L]' ."\n";
-        }
-
-
-    if ( "$multiaccessSSL" eq "enabled")
-        {
-            $OUT .= '    RewriteRule ^/phpmyadmin-multi(/.*)?\$    https://%HTTP_HOST/phpmyadmin-multi\$1 [R=301,L]' . "\n";
-        }
-}
-
 
 {
 my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
