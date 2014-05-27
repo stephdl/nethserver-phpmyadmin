@@ -7,15 +7,6 @@
  * wiki <http://wiki.phpmyadmin.net>.
  */
 
-{
-    #----------------------------------------------------------
-    #  This is needed for cookie based authentication to encrypt 
-    #  password in cookie for blowfish_secret
-    #----------------------------------------------------------
-
-    use esmith::util;
-    my $pw = esmith::util::genRandomPassword('/root/.blowfish_secret');
-}
 
 /* Servers configuration */
 $i = 0;
