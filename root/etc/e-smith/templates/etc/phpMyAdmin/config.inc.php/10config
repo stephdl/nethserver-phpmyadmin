@@ -7,6 +7,15 @@
  * wiki <http://wiki.phpmyadmin.net>.
  */
 
+{
+    #----------------------------------------------------------
+    #  This is needed for cookie based authentication to encrypt 
+    #  password in cookie for blowfish_secret
+    #----------------------------------------------------------
+
+    use esmith::util;
+    my $pw = esmith::util::genRandomPassword('/root/.blowfish_secret');
+}
 
 /* Servers configuration */
 $i = 0;
@@ -65,7 +74,11 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 if (("$multiaccess" eq "enabled"))
   {
   $OUT .="\$cfg['Servers'][\$i]['auth_type'] = 'cookie';\n";
-  my $secret = ${'httpd-admin'}{TKTAuthSecret} || "34322500-7330-4400-423A-3A00434F5245";
+  open (PW, "/root/.blowfish_secret")
+        || die "Could not read blowfish_secret.\n";
+  my $secret = <PW>   || "175c9977-b0f5-4184-84f8-df45c94bed51";
+  chomp ($secret);
+  close PW;          
   $OUT .="\$cfg['blowfish_secret'] = '$secret';\n";
   }
 else
