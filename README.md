@@ -4,11 +4,12 @@ Implementation of phpMyAdmin for Nethserver
 
 see default settings
 
-# config show phpmyadmin
-phpmyadmin=configuration
-    access=private
-    adminaccess=enabled
-    multiaccess=disabled
+	config show phpmyadmin
+
+	phpmyadmin=configuration
+	access=private
+	adminaccess=enabled
+	multiaccess=disabled
 
 You have two principal modes to log in phpmyadmin, all combinations are possible. 
 You can use adminaccess and multiaccess together or one instead the other.
@@ -19,8 +20,8 @@ In this mode you are in a single mode only, no other ways to delegate the DB man
 
 In order to enable or disable :
 
-config setprop phpmyadmin adminaccess enabled/disabled
-signal-event nethserver-phpmyadmin-save
+	config setprop phpmyadmin adminaccess enabled/disabled
+	signal-event nethserver-phpmyadmin-save
 
 -mode multiaccess
 
@@ -31,14 +32,14 @@ With the multiaccess mode, the admin account gets a new password which comes fro
 Once you retrieve  it, you can change it in the phpmyadmin session for a password more easier to recall.
 
 You can access via: 
-	https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
-        https://yourdomain/phpmyadmin if adminacces is disabled and multiaccess is enabled
+https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
+
+https://yourdomain/phpmyadmin if adminacces is disabled and multiaccess is enabled
 
 In order to enable or disable :
 
-config setprop phpmyadmin multiaccess enabled/disabled
-signal-event nethserver-phpmyadmin-save
-
+	config setprop phpmyadmin multiaccess enabled/disabled
+	signal-event nethserver-phpmyadmin-save
 
 -restrict access (local network or internet)
 
@@ -49,6 +50,6 @@ You can set how the access to phmyadmin is allowed
 
 In order to enable or disable :
 
-config setprop phpmyadmin access public/private
-signal-event nethserver-phpmyadmin-save
+	config setprop phpmyadmin access public/private
+	signal-event nethserver-phpmyadmin-save
 
