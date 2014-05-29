@@ -11,6 +11,5 @@ for my $event (qw(
     templates2events("/etc/phpMyAdmin/config.inc.php", $event);
     templates2events("/etc/httpd/conf.d/phpMyAdmin.conf", $event);
     templates2events("/etc/httpd/conf/httpd.conf", $event);
-    templates2events("/root/.blowfish_secret", $event);
     event_services($event, qw(httpd reload));
 }
