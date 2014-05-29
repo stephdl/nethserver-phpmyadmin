@@ -2,6 +2,13 @@
 
 use esmith::Build::CreateLinks qw(:all);
 
+for my event-conf (qw (nethserver-phpmyadmin-update))
+{
+    event_actions($event, 
+             'initialize-default-databases' => '00',
+             'nethserver-phpmyadmin-conf' => '20');
+}
+
 for my $event (qw(
     nethserver-phpmyadmin-update 
     nethserver-phpmyadmin-save 
@@ -13,3 +20,4 @@ for my $event (qw(
     templates2events("/etc/httpd/conf/httpd.conf", $event);
     event_services($event, qw(httpd reload));
 }
+
