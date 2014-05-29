@@ -25,21 +25,25 @@ package esmith;
 use strict;
 use Errno;
 use esmith::util;
-#use NethServer::Password;
+
 
 
   my $password = esmith::util::genRandomPassword('/etc/my.pwd')
         || die('Could not retrieve mysql password!');
+  my $admin_condition = `/usr/bin/mysql -e " SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'admin');"`;
 
-my $commands = join("\n", 
-        "DROP USER 'admin'\@'localhost';",
-        "CREATE USER 'admin'\@'localhost' IDENTIFIED BY '$password';",
-        "GRANT ALL PRIVILEGES ON *.* TO 'admin'\@'localhost' WITH GRANT OPTION;") . "\n";
+if ($admin_condition =~ '0')
 
-print $commands;
+    {
+    my $commands = join("\n",
+        "GRANT ALL PRIVILEGES ON *.* TO 'admin'\@'localhost' IDENTIFIED BY '$password' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0
+         MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;") . "\n";
+    print $commands;
 
-open(FH, '|-', '/usr/bin/mysql -B -f') || die("[ERROR] Could not connect to mysql");
-print FH $commands;     
-close(FH);
+    open(FH, '|-', '/usr/bin/mysql -B -f') || die("[ERROR] Could not connect to mysql");
+    print FH $commands;
+    close(FH);
+    }
 
 exit (0);
+
