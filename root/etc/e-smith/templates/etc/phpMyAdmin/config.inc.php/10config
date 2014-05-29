@@ -61,7 +61,7 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 if (("$multiaccess" eq "enabled"))
   {
   $OUT .="\$cfg['Servers'][\$i]['auth_type'] = 'cookie';\n";
-    my $pw = esmith::util::genRandomPassword('blowfishsecret');
+    my $blowfishsecret = esmith::util::genRandomPassword('blowfishsecret');
     $OUT .="\$cfg['blowfish_secret'] = '$blowfishsecret';\n";
   }
 else
