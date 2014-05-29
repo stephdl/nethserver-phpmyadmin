@@ -43,7 +43,7 @@ perl createlinks
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.2.2-7
+* Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 - first release to nethserver
 
 * Mon May 19 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.2.2-7
