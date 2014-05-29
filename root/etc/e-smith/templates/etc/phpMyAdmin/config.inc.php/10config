@@ -35,17 +35,13 @@ if (("$adminaccess" eq "enabled"))
   $OUT .="{\n";
   $OUT .="\$cfg['Servers'][\$i]['auth_type'] = 'config';\n";
   $OUT .="\$cfg['Servers'][\$i]['user'] = 'root';\n";
-  open (PW, "/etc/my.pwd")
-        || die "Could not read LDAP password.\n";
-  my $pw = <PW>;
-  chomp ($pw);
-  close PW;
+  my $pw = esmith::util::genRandomPassword('/etc/my.pwd');
   $OUT .="\$cfg['Servers'][\$i]['password']  = '$pw';\n";
   $OUT .="}";
   }
 else
   {
-  $OUT .="# standelaone admin configuration disabled";
+  $OUT .="# standalone admin configuration disabled";
   }
 }
 # end of  standalone login part
@@ -65,12 +61,8 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 if (("$multiaccess" eq "enabled"))
   {
   $OUT .="\$cfg['Servers'][\$i]['auth_type'] = 'cookie';\n";
-  open (PW, "/root/.blowfish_secret")
-        || die "Could not read blowfish_secret.\n";
-  my $secret = <PW>   || "175c9977-b0f5-4184-84f8-df45c94bed51";
-  chomp ($secret);
-  close PW;          
-  $OUT .="\$cfg['blowfish_secret'] = '$secret';\n";
+    my $pw = esmith::util::genRandomPassword('blowfishsecret');
+    $OUT .="\$cfg['blowfish_secret'] = '$blowfishsecret';\n";
   }
 else
   {
