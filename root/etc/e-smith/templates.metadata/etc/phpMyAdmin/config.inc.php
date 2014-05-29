@@ -1,3 +1,3 @@
 UID="root"
-GID="www"
+GID="apache"
 PERMS=0640
