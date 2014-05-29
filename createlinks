@@ -2,9 +2,9 @@
 
 use esmith::Build::CreateLinks qw(:all);
 
-for my event-conf (qw (nethserver-phpmyadmin-update))
+for my $event_conf (qw (nethserver-phpmyadmin-update))
 {
-    event_actions($event, 
+    event_actions($event_conf, 
              'initialize-default-databases' => '00',
              'nethserver-phpmyadmin-conf' => '20');
 }
