@@ -32,6 +32,7 @@ use esmith::util;
         || die('Could not retrieve mysql password!');
 
 my $commands = join("\n", 
+        "DROP USER 'admin'\@'localhost';",
         "CREATE USER 'admin'\@'localhost' IDENTIFIED BY '$password';",
         "GRANT ALL PRIVILEGES ON *.* TO 'admin'\@'localhost' WITH GRANT OPTION;") . "\n";
 
