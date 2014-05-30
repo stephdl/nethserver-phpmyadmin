@@ -17,7 +17,7 @@ You can use adminaccess and multiaccess together or one instead the other.
 -mode adminaccess
 Access with admin username/password (same as the password of server-manager) via: 
 
-	https://yourdomain/phpmyadmin.
+	https://yourdomain/phpmyadmin
 
 In this mode you are in a single mode only, no other ways to delegate the DB management to other users.
 
