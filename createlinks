@@ -6,7 +6,8 @@ for my $event_conf (qw (nethserver-phpmyadmin-update))
 {
     event_actions($event_conf, 
              'initialize-default-databases' => '00',
-             'nethserver-phpmyadmin-conf' => '20');
+             'nethserver-phpmyadmin-mysqlsettings-conf' => '01',
+             'nethserver-phpmyadmin-conf' => '02');
 }
 
 for my $event (qw(

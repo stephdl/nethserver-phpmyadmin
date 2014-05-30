@@ -29,17 +29,19 @@ In order to enable or disable :
 
 -mode multiaccess
 
-In this mode you can delegate the DB management to other users by the user name and the password of the database. 
+In this mode you can delegate the DB management to other users by the user and the password of the database. 
 Furthermore this mode is more convenient since the authentication is made with cookies. You can easily close the session.
 
 With the multiaccess mode, the admin account gets a new password which comes from '/etc/my.pwd'. 
 Once you retrieve  it, you can change it in the phpmyadmin session for a password more easier to recall.
 
+to retrieve the admin password : cat /etc/my.pwd
+
 You can access via:
  
-	https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
+	https://yourdomain/phpmyadmin-multi 		if adminacces is enabled and multiaccess is enabled
 
-	https://yourdomain/phpmyadmin if adminacces is disabled and multiaccess is enabled
+	https://yourdomain/phpmyadmin 			if adminacces is disabled and multiaccess is enabled
 
 In order to enable or disable :
 
