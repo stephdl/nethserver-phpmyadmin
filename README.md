@@ -35,6 +35,8 @@ Furthermore this mode is more convenient since the authentication is made with c
 With the multiaccess mode, the admin account gets a new password which comes from '/etc/my.pwd'. 
 Once you retrieve  it, you can change it in the phpmyadmin session for a password more easier to recall.
 
+to retrieve the admin password : cat /etc/my.pwd
+
 You can access via:
  
 	https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
