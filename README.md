@@ -26,7 +26,7 @@ In order to enable or disable :
 
 -mode multiaccess
 
-In this mode you can delegate the DB management to other users by the name and the password of the database. 
+In this mode you can delegate the DB management to other users by the user name and the password of the database. 
 Furthermore this mode is more convenient since the authentication is made with cookies. You can easily close the session.
 
 With the multiaccess mode, the admin account gets a new password which comes from '/etc/my.pwd'. 
