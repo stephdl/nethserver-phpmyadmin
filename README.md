@@ -34,9 +34,9 @@ Once you retrieve  it, you can change it in the phpmyadmin session for a passwor
 
 You can access via:
  
-https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
+	https://yourdomain/phpmyadmin-multi if adminacces is enabled and multiaccess is enabled
 
-https://yourdomain/phpmyadmin if adminacces is disabled and multiaccess is enabled
+	https://yourdomain/phpmyadmin if adminacces is disabled and multiaccess is enabled
 
 In order to enable or disable :
 
