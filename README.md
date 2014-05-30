@@ -15,7 +15,8 @@ You have two principal modes to log in phpmyadmin, all combinations are possible
 You can use adminaccess and multiaccess together or one instead the other.
 
 -mode adminaccess
-Access with admin username/password (same as the password of server-manager) via: 
+
+Access with admin/password (same as the password of server-manager) via: 
 
 	https://yourdomain/phpmyadmin
 
