@@ -46,7 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 - first release to nethserver
 
-* Mon May 19 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.2.2-7
+* Mon May 19 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 -first release to sme9
  
 * Sat Jun 22 2013 JP Pialasse <tests@pialasse.com> 3.5.2.2-6
