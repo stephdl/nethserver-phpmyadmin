@@ -1,11 +1,10 @@
 {
-# phpmyadmin
   my $status = $phpmyadmin{'status'} || 'disabled';
  
     if ($status eq 'enabled') 
   {
     $OUT .="#-------------------------------------------------\n";
-    $OUT .="# phpMyAdmin settings from smeserver-phpmyadmin\n";
+    $OUT .="# phpMyAdmin settings from nethserver-phpmyadmin\n";
     $OUT .="#-------------------------------------------------\n";
     $OUT .="\n";
  
@@ -53,7 +52,7 @@
 
     if ("$access" eq "private")
     {
-      $OUT .= "allow from $localAccess $externalSSLAccess";
+      $OUT .= "allow from $localAccess";
     }
     elsif ("$access" eq "public")
     {
@@ -81,7 +80,7 @@
 
 # These directories do not require access over HTTP - taken from the original
 # phpMyAdmin upstream tarball
-#
+
 <Directory /usr/share/phpMyAdmin/setup/>
     Order Deny,Allow
     Deny from All
