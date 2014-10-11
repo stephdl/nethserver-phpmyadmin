@@ -50,7 +50,6 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Oct 11 2014 stephane de labrusse <stephdl@de-labrusse.fr> 4.0.10.2
 - added a tmp folder other that the /tmp
 - added some db values to adjust php limits (PostMaxSize,UploadMaxSize,MemoryLimit)
-- added an event template on 'phpmyadmin-update'
 - added a phpmyadmin.sql db to save settings in db
 - new cool features (bookmarktable,relation,userconfig,table_info,column_info,history,
 - recent,table_uiprefs,tracking,table_coords,pdf_pages,designer_coords)
