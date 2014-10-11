@@ -37,8 +37,8 @@ class PhpMyAdmin extends \Nethgui\Module\AbstractModule implements \NethServer\M
     {
          $host = explode(':',$_SERVER['HTTP_HOST']);
          return array(
-            'url' => "http://".$host[0]."/phpmyadmin/",
-            'url' => "http://".$host[0]."/phpmyadmin-multi/"
+            'url_adminuser' => "http://".$host[0]."/phpmyadmin/",
+            'url_multiusers' => "http://".$host[0]."/phpmyadmin-multi/"
          );
     }
 }
