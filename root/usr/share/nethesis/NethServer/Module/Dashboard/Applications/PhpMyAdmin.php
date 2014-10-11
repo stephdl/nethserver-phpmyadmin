@@ -25,7 +25,7 @@ namespace NethServer\Module\Dashboard\Applications;
  *
  * @author Giacomo Sanchietti
  */
-class Roundcube extends \Nethgui\Module\AbstractModule implements \NethServer\Module\Dashboard\Interfaces\ApplicationInterface
+class PhpMyAdmin extends \Nethgui\Module\AbstractModule implements \NethServer\Module\Dashboard\Interfaces\ApplicationInterface
 {
 
     public function getName()
