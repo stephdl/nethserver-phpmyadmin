@@ -36,7 +36,7 @@ perl createlinks
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
 /bin/rm -f %{name}-%{version}-filelist
 /sbin/e-smith/genfilelist \
-     --dir /var/lib/phpMyAdmin/tmp 'attr(0770,root,www)' \
+     --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
   $RPM_BUILD_ROOT > %{name}-%{version}-filelist
 echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 

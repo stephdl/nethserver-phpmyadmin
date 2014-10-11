@@ -34,8 +34,8 @@ exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &
   my $DB = esmith::ConfigDB->open();
   my $rec = $DB->get('phpmyadmin') || $DB->new_record('phpmyadmin', {type => 'configuration'});
 
-  my $db = $phpmyadmin{'DbName'} || 'phpmyadmin';
-  my $user = $phpmyadmin{'DbUser'} || 'phpmyadmin';
+  my $db = $DB->get_prop('phpmyadmin','DbName') || 'phpmyadmin';
+  my $user = $DB->get_prop('phpmyadmin','DbUser') || 'phpmyadmin';
 
 # creation of two different password
   my $pass = esmith::util::genRandomPassword('phpmyadmin') || die('Could not generate phpmyadmin password!');
@@ -43,14 +43,13 @@ exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &
   my $admpass = esmith::util::genRandomPassword('sqladmin') || die('Could not generate sqladmin  password!');
    $rec->set_prop('sqladminPassword', $admpass);  
 
-# find where the sql file is stored
-  my $dbstruct = `rpm -qd smeserver-phpmyadmin | grep phpmyadmin.sql`;
-
+#mysql works
   my $commands = join("\n",
                  "GRANT ALL PRIVILEGES ON `$db`.* TO '$user'\@'localhost' IDENTIFIED BY '$pass';",
                  "GRANT ALL PRIVILEGES ON *.* TO sqladmin\@'localhost' IDENTIFIED BY '$admpass';",
                  "FLUSH PRIVILEGES;",
                  "CREATE DATABASE IF NOT EXISTS $db DEFAULT CHARACTER SET = 'utf8';",
+                 "USE mysql;",
                  "REPLACE INTO user (host,user,password) VALUES ('localhost','$user', PASSWORD ('$pass'));",
                  "REPLACE INTO db (host,db,user,select_priv, insert_priv, update_priv, delete_priv,create_priv, 
                      alter_priv, index_priv, drop_priv, create_tmp_table_priv,grant_priv, 
@@ -62,4 +61,8 @@ exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &
    open(FH, '|-', '/usr/bin/mysql -B -f') || die("[ERROR] Could not connect to mysql");
    print FH $commands;
    close(FH);
+
+# import the phpmyadmin sql structure
+   my $dbstruct = `rpm -qd nethserver-phpmyadmin | grep phpmyadmin.sql`;
+   system ("/usr/bin/mysql $db < $dbstruct");
 
