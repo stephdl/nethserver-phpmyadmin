@@ -26,7 +26,6 @@ use strict;
 use Errno;
 use esmith::util;
 use esmith::ConfigDB;
-#use NethServer::Password;
 
 exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &> /dev/null') != 0;
 
