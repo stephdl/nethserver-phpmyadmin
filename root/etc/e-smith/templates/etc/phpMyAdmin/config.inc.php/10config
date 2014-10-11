@@ -76,66 +76,39 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 }
 # end of multiuser login part
 
+{
+use esmith::util;
+#we retrieve values for settings options below
+our $dbname = $phpmyadmin{'DbName'} || 'phpmyadmin';
+our $dbuser = $phpmyadmin{'DbUser'} || 'phpmyadmin';
+our $dbpass = $phpmyadmin{'DbPassword'} || 'phpmyadmin';
 
-$cfg['Servers'][$i]['controluser']   = '';          // MySQL control user settings
-                                                    // (this user must have read-only
-$cfg['Servers'][$i]['controlpass']   = '';          // access to the "mysql/user"
-                                                    // and "mysql/db" tables).
-                                                    // The controluser is also
-                                                    // used for all relational
-                                                    // features (pmadb)
-$cfg['Servers'][$i]['only_db']       = '';          // If set to a db-name, only
-                                                    // this db is displayed in left frame
-                                                    // It may also be an array of db-names, where sorting order is relevant.
-$cfg['Servers'][$i]['hide_db']       = '';          // Database name to be hidden from listings
-$cfg['Servers'][$i]['verbose']       = '';          // Verbose name for this host - leave blank to show the hostname
+$OUT .= '';
+}
 
-$cfg['Servers'][$i]['pmadb']         = '';          // Database used for Relation, Bookmark and PDF Features
-                                                    // (see scripts/create_tables.sql)
-                                                    //   - leave blank for no support
-                                                    //     DEFAULT: 'phpmyadmin'
-$cfg['Servers'][$i]['bookmarktable'] = '';          // Bookmark table
-                                                    //   - leave blank for no bookmark support
-                                                    //     DEFAULT: 'pma_bookmark'
-$cfg['Servers'][$i]['relation']      = '';          // table to describe the relation between links (see doc)
-                                                    //   - leave blank for no relation-links support
-                                                    //     DEFAULT: 'pma_relation'
-$cfg['Servers'][$i]['table_info']    = '';          // table to describe the display fields
-                                                    //   - leave blank for no display fields support
-                                                    //     DEFAULT: 'pma_table_info'
-$cfg['Servers'][$i]['table_coords']  = '';          // table to describe the tables position for the PDF schema
-                                                    //   - leave blank for no PDF schema support
-                                                    //     DEFAULT: 'pma_table_coords'
-$cfg['Servers'][$i]['pdf_pages']     = '';          // table to describe pages of relationpdf
-                                                    //   - leave blank if you don't want to use this
-                                                    //     DEFAULT: 'pma_pdf_pages'
-$cfg['Servers'][$i]['column_info']   = '';          // table to store column information
-                                                    //   - leave blank for no column comments/mime types
-                                                    //     DEFAULT: 'pma_column_info'
-$cfg['Servers'][$i]['history']       = '';          // table to store SQL history
-                                                    //   - leave blank for no SQL query history
-                                                    //     DEFAULT: 'pma_history'
-$cfg['Servers'][$i]['verbose_check'] = TRUE;        // set to FALSE if you know that your pma_* tables
-                                                    // are up to date. This prevents compatibility
-                                                    // checks and thereby increases performance.
-$cfg['Servers'][$i]['AllowRoot']     = TRUE;        // whether to allow root login
-$cfg['Servers'][$i]['AllowDeny']['order']           // Host authentication order, leave blank to not use
-                                     = '';
-$cfg['Servers'][$i]['AllowDeny']['rules']           // Host authentication rules, leave blank for defaults
-                                     = array();
-$cfg['Servers'][$i]['AllowNoPassword']              // Allow logins without a password. Do not change the FALSE
-                                     = FALSE;       // default unless you're running a passwordless MySQL server
-$cfg['Servers'][$i]['designer_coords']              // Leave blank (default) for no Designer support, otherwise
-                                     = '';          // set to suggested 'pma_designer_coords' if really needed
-$cfg['Servers'][$i]['bs_garbage_threshold']         // Blobstreaming: Recommented default value from upstream
-                                     = 50;          //   DEFAULT: '50'
-$cfg['Servers'][$i]['bs_repository_threshold']      // Blobstreaming: Recommented default value from upstream
-                                     = '32M';       //   DEFAULT: '32M'
-$cfg['Servers'][$i]['bs_temp_blob_timeout']         // Blobstreaming: Recommented default value from upstream
-                                     = 600;         //   DEFAULT: '600'
-$cfg['Servers'][$i]['bs_temp_log_threshold']        // Blobstreaming: Recommented default value from upstream
-                                     = '32M';       //   DEFAULT: '32M'
+/* enhanced servers configuration */
 
+$cfg['Servers'][$i]['pmadb'] = '{$dbname}';
+$cfg['Servers'][$i]['controluser'] = '{$dbuser}';
+$cfg['Servers'][$i]['controlpass'] = '{$dbpass}';
+$cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
+$cfg['Servers'][$i]['relation'] = 'pma_relation';
+$cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
+$cfg['Servers'][$i]['table_info'] = 'pma_table_info';
+$cfg['Servers'][$i]['column_info'] = 'pma_column_info';
+$cfg['Servers'][$i]['history'] = 'pma_history';
+$cfg['Servers'][$i]['recent'] = 'pma_recent';
+$cfg['Servers'][$i]['table_uiprefs'] = 'pma_table_uiprefs';
+$cfg['Servers'][$i]['tracking'] = 'pma_tracking';
+$cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
+$cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
+$cfg['Servers'][$i]['designer_coords'] = 'pma_designer_coords';
+$cfg['Servers'][$i]['AllowRoot'] = TRUE;
+$cfg['Servers'][$i]['AllowDeny']['rules'] = array();
+$cfg['Servers'][$i]['AllowNoPassword'] = FALSE;
+$cfg['Servers'][$i]['bs_garbage_threshold'] = 50;
+$cfg['Servers'][$i]['bs_repository_threshold'] = '32M';
+$cfg['Servers'][$i]['bs_temp_blob_timeout'] = 600;
+$cfg['Servers'][$i]['bs_temp_log_threshold'] = '32M';
 
 /* End of servers configuration */
-
