@@ -4,7 +4,7 @@ Version: @@VERSION@@
 Release: @@RELEASE@@
 License: GPL
 Source: %{name}-%{version}.tar.gz
-URL: http://www.phpmyadmin.net/ 
+URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
 BuildArch: noarch
 
 Requires: mod_authnz_external
@@ -47,7 +47,7 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Sun Oct 11 2014 stephane de labrusse <stephdl@de-labrusse.fr> 4.0.10.2
+* Sun Oct 11 2014 stephane de labrusse <stephdl@de-labrusse.fr> 1.0.1-1.ns6
 - added a tmp folder other that the /tmp
 - added some db values to adjust php limits (PostMaxSize,UploadMaxSize,MemoryLimit)
 - added a phpmyadmin.sql db to save settings in db
@@ -61,6 +61,10 @@ rm -rf $RPM_BUILD_ROOT
 - add session.use_trans_sid 0
 - directory 'scripts' removed of httpd templates
 - VersionCheck is off now
+- pointers are created  in the Dashboard Application menu to use directly phpmyadmin
+ 
+* Mon Aug 18 2014 Davide Principi <davide.principi@nethesis.it> - 1.0.0-1.ns6
+- First nethforge release. Refs #2754
 
 * Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 - first release to nethserver

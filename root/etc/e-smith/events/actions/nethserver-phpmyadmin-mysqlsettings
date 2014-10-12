@@ -46,7 +46,8 @@ exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &
 #mysql works
   my $commands = join("\n",
                  "GRANT ALL PRIVILEGES ON `$db`.* TO '$user'\@'localhost' IDENTIFIED BY '$pass';",
-                 "GRANT ALL PRIVILEGES ON *.* TO sqladmin\@'localhost' IDENTIFIED BY '$admpass';",
+                 "GRANT ALL PRIVILEGES ON *.* TO sqladmin\@'localhost' IDENTIFIED BY '$admpass' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 
+                  MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;",
                  "FLUSH PRIVILEGES;",
                  "CREATE DATABASE IF NOT EXISTS $db DEFAULT CHARACTER SET = 'utf8';",
                  "USE mysql;",

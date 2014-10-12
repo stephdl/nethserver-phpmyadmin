@@ -68,21 +68,11 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 }
 # end of multiuser login part
 
-{
-use esmith::util;
-#we retrieve values for settings options below
-our $dbname = $phpmyadmin{'DbName'} || 'phpmyadmin';
-our $dbuser = $phpmyadmin{'DbUser'} || 'phpmyadmin';
-our $dbpass = $phpmyadmin{'DbPassword'} || 'phpmyadmin';
-
-$OUT .= '';
-}
-
 /* enhanced servers configuration */
 
-$cfg['Servers'][$i]['pmadb'] = '{$dbname}';
-$cfg['Servers'][$i]['controluser'] = '{$dbuser}';
-$cfg['Servers'][$i]['controlpass'] = '{$dbpass}';
+$cfg['Servers'][$i]['pmadb'] = '{($phpmyadmin{'Dbname'} || 'phpmyadmin')}';
+$cfg['Servers'][$i]['controluser'] = '{($phpmyadmin{'DbUser'} || 'phpmyadmin')}';
+$cfg['Servers'][$i]['controlpass'] = '{($phpmyadmin{'DbPassword'} || 'CHANGEME')}';
 $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
 $cfg['Servers'][$i]['relation'] = 'pma_relation';
 $cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
