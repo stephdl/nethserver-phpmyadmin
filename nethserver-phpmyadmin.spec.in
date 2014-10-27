@@ -4,12 +4,12 @@ Version: @@VERSION@@
 Release: @@RELEASE@@
 License: GPL
 Source: %{name}-%{version}.tar.gz
-URL: http://www.phpmyadmin.net/ 
+URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
 BuildArch: noarch
 
 Requires: mod_authnz_external
 Requires: pwauth
-Requires: phpMyAdmin
+Requires: phpMyAdmin >= 4.0.10.4
 
 Requires: nethserver-mysql
 Requires: nethserver-httpd
@@ -28,13 +28,17 @@ Access with admin username/password via: https://yourdomain/phpmyadmin.
 %setup
 
 %build
+%{__mkdir_p} root/var/lib/phpMyAdmin/tmp
 perl createlinks
 
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
 /bin/rm -f %{name}-%{version}-filelist
-/sbin/e-smith/genfilelist $RPM_BUILD_ROOT > %{name}-%{version}-filelist
+/sbin/e-smith/genfilelist \
+     --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
+  $RPM_BUILD_ROOT > %{name}-%{version}-filelist
+echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
@@ -43,6 +47,25 @@ perl createlinks
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Oct 11 2014 stephane de labrusse <stephdl@de-labrusse.fr> 1.0.1-1.ns6
+- added a tmp folder other that the /tmp
+- added some db values to adjust php limits (PostMaxSize,UploadMaxSize,MemoryLimit)
+- added a phpmyadmin.sql db to save settings in db
+- new cool features (bookmarktable,relation,userconfig,table_info,column_info,history,
+- recent,table_uiprefs,tracking,table_coords,pdf_pages,designer_coords)
+- the http://url/setup page is now forbidden by apache
+- a db 'status' exists now to disable simply phpmyadmin in httpd.conf
+- removed the openbasedir of /tmp to /var/lib/phpMyAdmin/tmp
+- add memory value up to 500M
+- add php upload/post up to 100M
+- add session.use_trans_sid 0
+- directory 'scripts' removed of httpd templates
+- VersionCheck is off now
+- pointers are created  in the Dashboard Application menu to use directly phpmyadmin
+ 
+* Mon Aug 18 2014 Davide Principi <davide.principi@nethesis.it> - 1.0.0-1.ns6
+- First nethforge release. Refs #2754
+
 * Sun May 25 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 - first release to nethserver
 
