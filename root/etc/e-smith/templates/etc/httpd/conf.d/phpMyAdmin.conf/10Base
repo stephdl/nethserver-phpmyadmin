@@ -1,98 +1,93 @@
-# phpmyadmin
-
-
 {
-my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
-my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
-if (("$adminaccess" eq "enabled") || ("$multiaccess" eq "enabled"))
+  my $status = $phpmyadmin{'status'} || 'disabled';
+ 
+    if ($status eq 'enabled') 
+  {
+    $OUT .="#-------------------------------------------------\n";
+    $OUT .="# phpMyAdmin settings from nethserver-phpmyadmin\n";
+    $OUT .="#-------------------------------------------------\n";
+    $OUT .="\n";
+ 
+  my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
+  my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
+    if (("$adminaccess" eq "enabled") || ("$multiaccess" eq "enabled"))
     {
-    $OUT .= "Alias /phpmyadmin /usr/share/phpMyAdmin\n";
+      $OUT .= "Alias /phpmyadmin /usr/share/phpMyAdmin\n";
     }
     else
     {
-    $OUT .= "# phpMyAdmin Admin access disabled\n";
+      $OUT .= "# phpMyAdmin Admin access disabled\n";
     }
-if ("$multiaccess" eq "enabled")
+
+    if ("$multiaccess" eq "enabled")
     {
-    $OUT .= "Alias /phpmyadmin-multi /usr/share/phpMyAdmin\n";
+      $OUT .= "Alias /phpmyadmin-multi /usr/share/phpMyAdmin\n";
     }
     else
     {
-    $OUT .= "# phpMyAdmin Multiuser access disabled\n";
+      $OUT .= "# phpMyAdmin Multiuser access disabled\n";
     }
-}
 
-{
-my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
-my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
 
-$OUT .= '<Location /phpmyadmin>
+    $OUT .= qq(
+<Location /phpmyadmin>
     AuthName "phpmyadmin"
     AuthType Basic
     AuthBasicProvider external
     AuthExternal pwauth
     require user admin
-</Location>
-' if "$adminaccess" eq "enabled";
-}
+</Location>) if "$adminaccess" eq "enabled";
 
+    $OUT .= qq(
 <Directory /usr/share/phpMyAdmin>
     SSLRequireSSL
     Options -Indexes
     AllowOverride None
     order deny,allow
     deny from all
-{
-my $access = ($phpmyadmin{'access'} || 'private');
-if ("$access" eq "private")
+    );
+
+
+  my $access = ($phpmyadmin{'access'} || 'private');
+
+    if ("$access" eq "private")
     {
-    $OUT .= "    allow from $localAccess";
+      $OUT .= "allow from $localAccess";
     }
     elsif ("$access" eq "public")
     {
-    $OUT .= "    allow from all";
+      $OUT .= "allow from all";
     }
-}
+
+  my $postmaxsize   = ($phpmyadmin{'PostMaxSize'} || '100M');
+  my $uploadmaxsize = ($phpmyadmin{'UploadMaxSize'} || '100M');
+  my $memorylimit   = ($phpmyadmin{'MemoryLimit'} || '500M');
+
+  $OUT .= qq(
     Satisfy all
     AddType application/x-httpd-php .php .php3
     php_flag  magic_quotes_gpc  on
     php_flag  track_vars        on
-    php_admin_value open_basedir /usr/share/php:/usr/share/phpMyAdmin:/etc/phpMyAdmin:/var/lib/phpMyAdmin:/tmp
-</Directory>
-
-
-<Directory /usr/share/phpMyAdmin/scripts>
-    SSLRequireSSL
-    Options -Indexes
-    AllowOverride None
-    order deny,allow
-    deny from all
-{
-my $access = ($phpmyadmin{'access'} || 'private');
-if ("$access" eq "private")
-    {
-    $OUT .= "    allow from $localAccess ";
-    }
-    elsif ("$access" eq "public")
-    {
-    $OUT .= "    allow from all";
-    }
-}
-    AuthName "phpMyadmin Scripts (Admin)"
-    AuthType Basic
-    AuthBasicProvider external
-    AuthExternal pwauth
-    require user admin
-    Satisfy all
-    AddType application/x-httpd-php .php .php3
-    php_flag  magic_quotes_gpc  on
-    php_flag  track_vars        on
+    php_admin_value open_basedir /usr/share/php:/usr/share/phpMyAdmin:/etc/phpMyAdmin:/var/lib/phpMyAdmin
+    php_admin_value session.save_path /var/lib/php/session
+    php_admin_value post_max_size $postmaxsize
+    php_admin_value upload_max_filesize $uploadmaxsize
+    php_admin_value memory_limit $memorylimit
+    php_admin_flag session.use_trans_sid 0
+    php_admin_value upload_tmp_dir /var/lib/phpMyAdmin/tmp
 </Directory>
 
 
 # These directories do not require access over HTTP - taken from the original
 # phpMyAdmin upstream tarball
-#
+
+<Directory /usr/share/phpMyAdmin/setup/>
+    Order Deny,Allow
+    Deny from All
+    Allow from None
+</Directory>
+
+
 <Directory /usr/share/phpMyAdmin/libraries/>
     Order Deny,Allow
     Deny from All
@@ -106,8 +101,14 @@ if ("$access" eq "private")
 </Directory>
 
 <Directory /usr/share/phpMyAdmin/setup/frames/>
-    Order Deny,Allow
-    Deny from All
-    Allow from None
-</Directory>
+     Order Deny,Allow
+     Deny from All
+     Allow from None
+</Directory>);
 
+  }
+    else 
+    {
+      $OUT .= "# phpmyadmin is disabled";
+    }
+}

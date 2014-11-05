@@ -26,7 +26,7 @@ use strict;
 use Errno;
 use esmith::util;
 
-
+### Creation of the user Admin with all permissions
 
   my $password = esmith::util::genRandomPassword('/etc/my.pwd')
         || die('Could not retrieve mysql password!');
@@ -46,4 +46,3 @@ if ($admin_condition =~ '0')
     }
 
 exit (0);
-
