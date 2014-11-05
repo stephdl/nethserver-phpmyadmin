@@ -47,7 +47,7 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Wed Nov 5 2014 stephane de labrusse <stephdl@de-labrusse.fr> - 1.0.1-1.ns6
+* Wed Nov 05 2014 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.0-1.ns6
 - updated to phpMyAdmin-4.0.10.4-1.el6.noarch - Feature #2934 [NethForge]
 - added a tmp folder other that the /tmp
 - added some db values to adjust php limits (PostMaxSize,UploadMaxSize,MemoryLimit)
