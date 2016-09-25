@@ -28,16 +28,16 @@ Access with admin username/password via: https://yourdomain/phpmyadmin.
 %setup
 
 %build
-%{__mkdir_p} root/var/lib/phpMyAdmin/tmp
+mkdir  -p root/var/lib/phpMyAdmin/tmp
 perl createlinks
 
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
-/bin/rm -f %{name}-%{version}-filelist
-/sbin/e-smith/genfilelist \
+#/bin/rm -f %{name}-%{version}-filelist
+/sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
      --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
-  $RPM_BUILD_ROOT > %{name}-%{version}-filelist
+   > %{name}-%{version}-filelist
 echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
