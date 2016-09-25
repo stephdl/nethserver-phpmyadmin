@@ -1,0 +1,7 @@
+#
+# 50phpmyadmin
+#
+RewriteEngine On
+RewriteCond %\{HTTPS\} !=on
+RewriteRule ^/phpmyadmin(/.*)?$ https://%\{HTTP_HOST\}/phpmyadmin$1 [L,R=301]
+RewriteRule ^/phpMyAdmin(/.*)?$ https://%\{HTTP_HOST\}/phpMyAdmin$1 [L,R=301]

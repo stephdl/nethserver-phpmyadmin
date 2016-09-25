@@ -1,19 +1,16 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.1.0
+Version: 1.2.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
 BuildArch: noarch
 
-Requires: mod_authnz_external
-Requires: pwauth
 Requires: phpMyAdmin >= 4.0.10.4
 
 Requires: nethserver-mysql
 Requires: nethserver-httpd
-Requires: nethserver-directory
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools 
@@ -34,19 +31,24 @@ perl createlinks
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
-#/bin/rm -f %{name}-%{version}-filelist
-/sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
+%{genfilelist} %{buildroot}   \
      --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
-   > %{name}-%{version}-filelist
+   $RPM_BUILD_ROOT > %{name}-%{version}-filelist
 echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 
+%dir %{_nseventsdir}/%{name}-update
+
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Sep 29 2016 stephane de labrusse <stephdl@de-labrusse.fr> - 1.2.0-1.ns6
+- NS7 version
+- Only the cooky session is used now, because the admin user does't exist anymore
+
 * Wed Nov 05 2014 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.0-1.ns6
 - updated to phpMyAdmin-4.0.10.4-1.el6.noarch - Feature #2934 [NethForge]
 - added a tmp folder other that the /tmp

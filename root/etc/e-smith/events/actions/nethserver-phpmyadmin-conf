@@ -24,11 +24,10 @@ package esmith;
 
 use strict;
 use Errno;
-use esmith::util;
-
+use NethServer::Password;
 ### Creation of the user Admin with all permissions
 
-  my $password = esmith::util::genRandomPassword('/etc/my.pwd')
+  my $password = NethServer::Password::store('mysql')
         || die('Could not retrieve mysql password!');
   my $admin_condition = `/usr/bin/mysql -e " SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'admin');"`;
 
