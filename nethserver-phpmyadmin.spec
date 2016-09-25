@@ -34,7 +34,6 @@ perl createlinks
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
-#/bin/rm -f %{name}-%{version}-filelist
 %{genfilelist} %{buildroot}   \
      --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
    $RPM_BUILD_ROOT > %{name}-%{version}-filelist
@@ -42,6 +41,8 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
+
+%dir %{_nseventsdir}/%{name}-update
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
