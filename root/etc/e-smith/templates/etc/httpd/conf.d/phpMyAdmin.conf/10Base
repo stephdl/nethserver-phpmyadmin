@@ -35,7 +35,7 @@
     AuthType Basic
     AuthBasicProvider external
     AuthExternal pwauth
-    require user admin
+    require user root
 </Location>) if "$adminaccess" eq "enabled";
 
     $OUT .= qq(

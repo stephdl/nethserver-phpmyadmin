@@ -13,7 +13,7 @@ Requires: phpMyAdmin >= 4.0.10.4
 
 Requires: nethserver-mysql
 Requires: nethserver-httpd
-Requires: nethserver-directory
+#Requires: nethserver-directory
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools 
@@ -35,9 +35,9 @@ perl createlinks
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
 #/bin/rm -f %{name}-%{version}-filelist
-/sbin/e-smith/genfilelist $RPM_BUILD_ROOT \
+%{genfilelist} %{buildroot}   \
      --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
-   > %{name}-%{version}-filelist
+   $RPM_BUILD_ROOT > %{name}-%{version}-filelist
 echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
