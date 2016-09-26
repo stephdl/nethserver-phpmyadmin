@@ -24,15 +24,14 @@ package esmith;
 
 use strict;
 use Errno;
-use esmith::util;
 use esmith::ConfigDB;
-
+use NethServer::Password;
 exit(0) unless system('/usr/bin/mysql phpmyadmin  -e "describe pma_userconfig" &> /dev/null') != 0;
 
 ### Creation of the mysql base for phpmyadmin
 
 # creation of a password
-  my $pass = esmith::util::genRandomPassword('phpmyadmin') || die('Could not generate phpmyadmin password!');
+  my $pass = NethServer::Password::store('phpmyadmin') || die('Could not generate phpmyadmin password!');
 
 #mysql works
   my $commands = join("\n",
