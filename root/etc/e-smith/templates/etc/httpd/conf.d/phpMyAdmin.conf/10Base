@@ -1,63 +1,38 @@
 {
   my $status = $phpmyadmin{'status'} || 'disabled';
  
-    if ($status eq 'enabled') 
-  {
+return "# phpmyadmin configuration is disabled by its status property"  unless ($status eq 'enabled'); 
+
     $OUT .="#-------------------------------------------------\n";
     $OUT .="# phpMyAdmin settings from nethserver-phpmyadmin\n";
     $OUT .="#-------------------------------------------------\n";
     $OUT .="\n";
  
-  my $adminaccess = ($phpmyadmin{'adminaccess'} || 'enabled');
-  my $multiaccess = ($phpmyadmin{'multiaccess'} || 'disabled');
-    if (("$adminaccess" eq "enabled") || ("$multiaccess" eq "enabled"))
-    {
-      $OUT .= "Alias /phpmyadmin /usr/share/phpMyAdmin\n";
-    }
-    else
-    {
-      $OUT .= "# phpMyAdmin Admin access disabled\n";
-    }
+    $OUT .= "Alias /phpmyadmin /usr/share/phpMyAdmin\n";
+    $OUT .= "Alias /phpMyAdmin /usr/share/phpMyAdmin\n";
 
-    if ("$multiaccess" eq "enabled")
-    {
-      $OUT .= "Alias /phpmyadmin-multi /usr/share/phpMyAdmin\n";
-    }
-    else
-    {
-      $OUT .= "# phpMyAdmin Multiuser access disabled\n";
-    }
-
+    my $access24 = ($phpmyadmin{access} eq "public" ) ? "all granted" : "ip $localAccess" ; 
+    my $access22 = ($phpmyadmin{access} eq "public" ) ? "all" : "$localAccess" ;
 
     $OUT .= qq(
-<Location /phpmyadmin>
-    AuthName "phpmyadmin"
-    AuthType Basic
-    AuthBasicProvider external
-    AuthExternal pwauth
-    require user root
-</Location>) if "$adminaccess" eq "enabled";
-
-    $OUT .= qq(
-<Directory /usr/share/phpMyAdmin>
+<Directory /usr/share/phpMyAdmin/>
+   AddDefaultCharset UTF-8
     SSLRequireSSL
     Options -Indexes
     AllowOverride None
-    order deny,allow
-    deny from all
-    );
 
-
-  my $access = ($phpmyadmin{'access'} || 'private');
-
-    if ("$access" eq "private")
-    {
-      $OUT .= "allow from $localAccess";
-    }
-    elsif ("$access" eq "public")
-    {
-      $OUT .= "allow from all";
-    }
+   <IfModule mod_authz_core.c>
+     # Apache 2.4
+     <RequireAny>
+       Require $access24
+     </RequireAny>
+   </IfModule>
+   <IfModule !mod_authz_core.c>
+     # Apache 2.2
+     Order Deny,Allow
+     Deny from All
+     Allow from $access22
+   </IfModule>);
 
   my $postmaxsize   = ($phpmyadmin{'PostMaxSize'} || '100M');
   my $uploadmaxsize = ($phpmyadmin{'UploadMaxSize'} || '100M');
@@ -68,7 +43,6 @@
     AddType application/x-httpd-php .php .php3
     php_flag  magic_quotes_gpc  on
     php_flag  track_vars        on
-    php_admin_value open_basedir /usr/share/php:/usr/share/phpMyAdmin:/etc/phpMyAdmin:/var/lib/phpMyAdmin
     php_admin_value session.save_path /var/lib/php/session
     php_admin_value post_max_size $postmaxsize
     php_admin_value upload_max_filesize $uploadmaxsize
@@ -106,9 +80,4 @@
      Allow from None
 </Directory>);
 
-  }
-    else 
-    {
-      $OUT .= "# phpmyadmin is disabled";
-    }
-}
+} 
