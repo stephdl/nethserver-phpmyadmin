@@ -53,7 +53,8 @@ if (("$multiaccess" eq "enabled") && ("$adminaccess" eq "enabled"))
 if (("$multiaccess" eq "enabled"))
   {
   $OUT .="\$cfg['Servers'][\$i]['auth_type'] = 'cookie';\n";
-    my $blowfishsecret = esmith::util::genRandomPassword('blowfishsecret') || die('Could not generate blowfishsecret!');
+  my $blowfishsecret =  NethServer::Password->new( 'blowfishsecret', { 'length' => 128 }) ->save()->getAscii()
+        || die 'cannot generate the blowfishsecret password';
     $OUT .="\$cfg['blowfish_secret'] = '$blowfishsecret';\n";
   }
 else

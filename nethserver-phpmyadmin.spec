@@ -1,6 +1,6 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.1.0
+Version: 1.1.1
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -9,14 +9,15 @@ BuildArch: noarch
 
 Requires: mod_authnz_external
 Requires: pwauth
-Requires: phpMyAdmin >= 4.0.10.4
+Requires: phpMyAdmin >= 4.0.10.18
+Requires: php-php-gettext
 
 Requires: nethserver-mysql
 Requires: nethserver-httpd
 Requires: nethserver-directory
 
 BuildRequires: perl
-BuildRequires: nethserver-devtools 
+BuildRequires: nethserver-devtools
 
 %description
 Implementation of phpMyAdmin for Nethserver
@@ -43,10 +44,12 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 
-%clean 
+%clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jan 04 2017 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.1-1.ns6
+- blowfishsecret must be more harder with phpMyAdmin > 4.0.10.18
 * Wed Nov 05 2014 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.0-1.ns6
 - updated to phpMyAdmin-4.0.10.4-1.el6.noarch - Feature #2934 [NethForge]
 - added a tmp folder other that the /tmp
@@ -63,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 - directory 'scripts' removed of httpd templates
 - VersionCheck is off now
 - pointers are created  in the Dashboard Application menu to use directly phpmyadmin
- 
+
 * Mon Aug 18 2014 Davide Principi <davide.principi@nethesis.it> - 1.0.0-1.ns6
 - First nethforge release. Refs #2754
 
@@ -72,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Mon May 19 2014 stephane de labrusse <stephdl@de-labrusse.fr> 3.5.8.2
 -first release to sme9
- 
+
 * Sat Jun 22 2013 JP Pialasse <tests@pialasse.com> 3.5.2.2-6
 - Obsolete multiuser [SME: 7685]
 
@@ -89,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 - adaptation for phpMyAdmin3 3.5.2.2
 
 * Thu May 15 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 2.11.1.2-3
-- Protect sensible data and prevent access error by setting 
+- Protect sensible data and prevent access error by setting
   proper permissions to config.inc.php template [SME: 4343]
 
 * Wed May 14 2008 Jonathan Martens <smeserver-contribs@snetram.nl>
