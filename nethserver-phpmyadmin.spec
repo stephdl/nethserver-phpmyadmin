@@ -1,7 +1,7 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
 Version: 1.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
@@ -43,11 +43,14 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
-
+%doc COPYING
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Sun Mar 12 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.1-2.ns6
+- GPL license
+
 * Wed Jan 04 2017 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.1-1.ns6
 - blowfishsecret must be more harder with phpMyAdmin > 4.0.10.18
 * Wed Nov 05 2014 stephane de labrusse <stephdl@de-labrusse.fr> - 1.1.0-1.ns6
