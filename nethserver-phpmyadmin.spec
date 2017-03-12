@@ -1,7 +1,7 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
 Version: 1.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
@@ -38,14 +38,17 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
-
+%doc COPYING
 %dir %{_nseventsdir}/%{name}-update
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Thu Sep 29 2016 stephane de labrusse <stephdl@de-labrusse.fr> - 1.2.0-1.ns6
+* Sun Mar 12 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.2.0-2.ns7
+- GPL license
+
+* Thu Sep 29 2016 stephane de labrusse <stephdl@de-labrusse.fr> - 1.2.0-1.ns7
 - NS7 version
 - Only the cooky session is used now, because the admin user does't exist anymore
 
