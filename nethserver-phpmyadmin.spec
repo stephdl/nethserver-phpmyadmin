@@ -1,7 +1,7 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.1.1
-Release: 2%{?dist}
+Version: 1.1.2
+Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
@@ -48,6 +48,9 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar 29 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.2-1.ns6
+- Template expansion on trusted-network
+
 * Sun Mar 12 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.1-2.ns6
 - GPL license
 
