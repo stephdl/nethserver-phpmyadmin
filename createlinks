@@ -22,3 +22,6 @@ for my $event (qw(
     event_services($event, qw(httpd reload));
 }
 
+my $event = 'trusted-networks-modify';
+    templates2events("/etc/httpd/conf.d/phpMyAdmin.conf", $event);
+
