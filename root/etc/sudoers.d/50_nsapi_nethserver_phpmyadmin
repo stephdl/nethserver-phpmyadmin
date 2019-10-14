@@ -1,0 +1,8 @@
+
+#
+# nsapi_nethserver_phpmyadmin
+#
+Cmnd_Alias NSAPI_NETHSERVER_PHPMYADMIN = \
+     /usr/libexec/nethserver/api/nethserver-phpmyadmin/read
+
+Defaults!NSAPI_NETHSERVER_PHPMYADMIN !requiretty

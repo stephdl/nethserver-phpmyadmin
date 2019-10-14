@@ -1,6 +1,6 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.2.1
+Version: 1.2.3
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -27,10 +27,20 @@ Access with admin username/password via: https://yourdomain/phpmyadmin.
 %build
 mkdir  -p root/var/lib/phpMyAdmin/tmp
 perl createlinks
-
+sed -i 's/_RELEASE_/%{version}/' %{name}.json
+ 
 %install
 /bin/rm -rf $RPM_BUILD_ROOT
 (cd root   ; /usr/bin/find . -depth -print | /bin/cpio -dump $RPM_BUILD_ROOT)
+
+mkdir -p %{buildroot}/usr/share/cockpit/%{name}/
+mkdir -p %{buildroot}/usr/share/cockpit/nethserver/applications/
+mkdir -p %{buildroot}/usr/libexec/nethserver/api/%{name}/
+cp -a manifest.json %{buildroot}/usr/share/cockpit/%{name}/
+cp -a logo.png %{buildroot}/usr/share/cockpit/%{name}/
+cp -a %{name}.json %{buildroot}/usr/share/cockpit/nethserver/applications/
+cp -a api/* %{buildroot}/usr/libexec/nethserver/api/%{name}/
+
 %{genfilelist} %{buildroot}   \
      --dir /var/lib/phpMyAdmin/tmp 'attr(0750,apache,apache)' \
    $RPM_BUILD_ROOT > %{name}-%{version}-filelist
@@ -45,6 +55,12 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Oct 14 2019 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.3-1.ns7
+- cockpit. added to legacy apps
+
+* Sun Sep 10 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.2-1.ns7
+- Restart httpd service on trusted-network
+
 * Wed Mar 29 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.2.1-2.ns7
 - Template expansion on trusted-network
 
