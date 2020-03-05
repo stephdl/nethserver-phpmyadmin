@@ -1,6 +1,6 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.2.3
+Version: 1.2.4
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -50,11 +50,15 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 %defattr(-,root,root)
 %doc COPYING
 %dir %{_nseventsdir}/%{name}-update
+%attr(0440,root,root) /etc/sudoers.d/50_nsapi_nethserver_phpmyadmin
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 05 2020  stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.4-1.ns7
+- Fix bad sudoers permission
+
 * Mon Oct 14 2019 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.3-1.ns7
 - cockpit. added to legacy apps
 
