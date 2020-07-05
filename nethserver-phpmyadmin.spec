@@ -1,6 +1,6 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
-Version: 1.2.4
+Version: 1.2.5
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -55,7 +55,14 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
+%postun
+/usr/bin/rm -f /etc/httpd/conf.d/phpMyAdmin.conf
+/usr/bin/systemctl reload httpd
+
 %changelog
+* Sun Jul 05 2020 stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.5
+- Remove http templates after rpm removal
+
 * Thu Mar 05 2020  stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.4-1.ns7
 - Fix bad sudoers permission
 
