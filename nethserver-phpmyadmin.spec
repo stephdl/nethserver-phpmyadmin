@@ -1,7 +1,7 @@
 Summary: phpMyAdmin for Nethserver
 Name: nethserver-phpmyadmin
 Version: 1.2.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 URL: http://dev.nethserver.org/projects/nethforge/wiki/%{name}
@@ -56,8 +56,10 @@ echo "%doc phpmyadmin.sql" >> %{name}-%{version}-filelist
 rm -rf $RPM_BUILD_ROOT
 
 %postun
-/usr/bin/rm -f /etc/httpd/conf.d/phpMyAdmin.conf
-/usr/bin/systemctl reload httpd
+if [ $1 == 0 ] ; then
+  /usr/bin/rm -f /etc/httpd/conf.d/phpMyAdmin.conf
+  /usr/bin/systemctl reload httpd
+fi
 
 %changelog
 * Sun Jul 05 2020 stephane de Labrusse <stephdl@de-labrusse.fr> 1.2.5
